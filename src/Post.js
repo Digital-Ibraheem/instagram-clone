@@ -43,8 +43,7 @@ function Post({ postId, caption, username, imageUrl, profilePic }) {
 
 			<img className='post__image' src={imageUrl} alt='' />
 			<h4 className='post__text'><b>{username} </b> {caption}</h4>
-
-			<form>
+			<form style={{ borderTop: "1px solid lightgray", width: "95%", margin: "0 2.5%", paddingTop: "1%" }}>
 				<Input
 					className="post__input"
 					type='text'
@@ -61,7 +60,7 @@ function Post({ postId, caption, username, imageUrl, profilePic }) {
 					Post
 				</Button>
 			</form>
-		</div>
+		</div >
 	)
 }
 
