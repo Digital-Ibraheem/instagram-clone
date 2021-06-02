@@ -84,7 +84,8 @@ function App() {
     })
   }, [])
 
-  const signUp = () => {
+  const signUp = (e) => {
+    e.preventDefault()
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
@@ -98,7 +99,8 @@ function App() {
     error === '' && setOpen(false)
   }
 
-  const signIn = () => {
+  const signIn = (e) => {
+    e.preventDefault()
     auth
       .signInWithEmailAndPassword(email, password)
       .then(setError(''))
@@ -114,7 +116,7 @@ function App() {
           onClose={() => setOpen(false)}
         >
           <div style={modalStyle} className={classes.paper}>
-            <form className='app__signup'>
+            <form className='app__signup' onSubmit={signUp}>
               <center>
                 <img src='https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png' alt="Instagram" height='150px' className="app__headerImage" />
                 {error && <Alert severity='error' style={{ margin: '10px 0 20px 0' }} onClose={() => { setError('') }}>{error}</Alert>}
@@ -139,7 +141,7 @@ function App() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button style={{ width: '100%' }} onClick={signUp}>Sign Up</Button>
+                <Button style={{ width: '100%' }} type="submit">Sign Up</Button>
               </center>
             </form>
 
@@ -150,7 +152,7 @@ function App() {
           onClose={() => setOpenSignIn(false)}
         >
           <div style={modalStyle} className={classes.paper}>
-            <form className='app__signup'>
+            <form className='app__signup' onSubmit={signIn}>
               <center>
                 <img src='https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png' alt="Instagram" height='150px' className="app__headerImage" />
                 {error && <Alert severity='error' style={{ margin: '10px 0 20px 0' }} onClose={() => { setError('') }}>{error}</Alert>}
@@ -168,7 +170,7 @@ function App() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button style={{ width: '100%' }} onClick={signIn}>Sign In</Button>
+                <Button type="submit" style={{ width: '100%' }}>Sign In</Button>
               </center>
             </form>
 
@@ -204,7 +206,7 @@ function App() {
 
         <div className="app__posts">
           {posts.map(({ id, post }) => (
-            <Post key={id} postId={id} profilePic={post.profilePic} caption={post.caption} imageUrl={post.imageUrl} username={post.username} />
+            <Post key={id} user={user} postId={id} profilePic={post.profilePic} caption={post.caption} imageUrl={post.imageUrl} username={post.username} />
           ))}
         </div>
         <InstagramEmbed

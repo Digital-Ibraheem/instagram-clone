@@ -52,15 +52,17 @@ function ImageUpload({ username, setPostOpen }) {
     }
     return (
         <div className='imageUpload'>
-            <progress className='imageUpload__progress' value={progress} max='100' />
-            <input type="file" name="file" id="file" onChange={chooseFile} className="imageUpload__inputFile" />
-            <Button>
-                <label for="file">{image != null ? 'FILE CHOSEN' : 'CHOOSE FILE'}</label>
-            </Button>
-            <Input className='imageUpload__caption' type="text" placeholder='Enter a caption...' value={caption} onChange={e => setCaption(e.target.value)} />
-            <Button disabled={!caption || !image} onClick={handleUpload}>
-                Upload
-            </Button>
+            <form onSubmit={handleUpload}>
+                <progress className='imageUpload__progress' value={progress} max='100' />
+                <input type="file" name="file" id="file" onChange={chooseFile} className="imageUpload__inputFile" />
+                <Button className="imageUpload__chooseFile">
+                    <label for="file">{image != null ? 'FILE CHOSEN' : 'CHOOSE FILE'}</label>
+                </Button>
+                <Input className='imageUpload__caption' type="text" placeholder='Enter a caption...' value={caption} onChange={e => setCaption(e.target.value)} />
+                <Button className="imageUpload__button" disabled={!caption || !image} type="submit">
+                    Upload
+                </Button>
+            </form>
         </div>
     )
 }

@@ -43,3 +43,19 @@
     border-radius: 0;
     color: #6082a3;
 }
+
+.post__comments {
+    padding: 20px;
+    font-size: 14px;
+    border-top: 1px solid lightgray;
+}
+
+.post__commentsLabel {
+    font-size: 14px;
+    color: gray;
+    margin-left: 10px;
+}
+
+.post__comment {
+    margin-top: 10px;
+}

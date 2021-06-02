@@ -1,11 +1,16 @@
 .imageUpload{
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 60%;
     margin: 10px auto;
 }
 
 .imageUpload__progress {
+    width: 100%;
+}
+
+.imageUpload__chooseFile {
     width: 100%;
 }
 
@@ -18,3 +23,10 @@
 	z-index: -1;
 }
 
+.imageUpload__caption{
+    width: 100%;
+}
+
+.imageUpload__button{
+    width: 100%;
+}
