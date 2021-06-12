@@ -6,7 +6,6 @@ import Modal from '@material-ui/core/Modal'
 import { db, auth } from './firebase.js'
 import { Button, Input } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert';
-import InstagramEmbed from 'react-instagram-embed';
 import ImageUpload from './ImageUpload';
 
 function getModalStyle() {
@@ -209,18 +208,6 @@ function App() {
             <Post key={id} user={user} postId={id} profilePic={post.profilePic} caption={post.caption} imageUrl={post.imageUrl} username={post.username} />
           ))}
         </div>
-        <InstagramEmbed
-          url='https://www.instagram.com/p/B_uf9dmAGPw/'
-          maxWidth={320}
-          hideCaption={false}
-          containerTagName='div'
-          protocol=''
-          injectScript
-          onLoading={() => { }}
-          onSuccess={() => { }}
-          onAfterRender={() => { }}
-          onFailure={() => { }}
-        />
       </div>
     </>
   );
