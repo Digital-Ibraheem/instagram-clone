@@ -9,6 +9,8 @@ import firebase from 'firebase'
 function Post({ postId, caption, user, username, imageUrl, profilePic }) {
 	const [comments, setComments] = useState([])
 	const [comment, setComment] = useState('')
+	const [isLiked, setIsLiked] = useState([])
+	const [id, setId] = useState('')
 
 	useEffect(() => {
 		let unsubscribe;
@@ -28,6 +30,15 @@ function Post({ postId, caption, user, username, imageUrl, profilePic }) {
 		}
 	}, [postId])
 
+	useEffect(() => {
+		db.collection('posts').doc(postId).collection('likedBy').onSnapshot(snapshot => {
+			setIsLiked(snapshot.docs.map(doc => doc.data()))
+		})
+	}, [postId])
+	function deletePost() {
+		db.collection('posts').doc(postId).delete()
+	}
+
 	function postComment(e) {
 		e.preventDefault()
 
@@ -38,25 +49,57 @@ function Post({ postId, caption, user, username, imageUrl, profilePic }) {
 		})
 		setComment('')
 	}
+	function like() {
+		let lastClick = 0;
+		const delay = 500;
+		if (lastClick <= (Date.now() - delay)) {
+			lastClick = Date.now()
+			const likedBy = db.collection('posts').doc(postId).collection('likedBy')
+			likedBy.onSnapshot(snapshot => setIsLiked(snapshot.docs.map((doc) => doc.data())))
+			likedBy.onSnapshot(snapshot => snapshot.docs.forEach((doc) => {
+				setId(doc.data().username === user.displayName && doc.id)
+			}))
+			if (isLiked.some(doc => doc.username === user.displayName)) {
+				console.log(likedBy.doc(id))
+				console.log(id)
+				likedBy.doc(id).delete()
+				likedBy.onSnapshot(snapshot => setIsLiked(snapshot.docs.map((doc) => doc.data())))
+			} else {
+				console.log('added')
+				likedBy.add({
+					username: user.displayName
+				})
+				console.log(isLiked)
+			}
+		}
+	}
 
 	return (
 		<div className='post'>
 			<div className="post__header">
-				<Avatar
-					className='post__avatar'
-					alt={username.toUpperCase()}
-					src={profilePic}
-				/>
-				<h4>{username}</h4>
+				<div className="post__trash">
+					<Avatar
+						className='post__avatar'
+						alt={username.toUpperCase()}
+						src={profilePic}
+					/>
+					<h4>{username}</h4>
+				</div>
+				{user && user.displayName === username && <i onClick={deletePost} className='fas fa-trash fa-lg'></i>}
 			</div>
 
-			<img className='post__image' src={imageUrl} alt='' />
-			<h4 className='post__text'><b>{username} </b> {caption}</h4>
+			<img onDoubleClick={user && like} className='post__image' src={imageUrl} alt='' />
+			{isLiked.length > 0 && <h4 className='post__likes'>{isLiked.length === 1 ? '1 like' : `${isLiked.length} likes`}</h4>}
+			<h4 className='post__text'>
+				{user && <i onClick={like} className={`fa${isLiked.some(doc => doc.username === user.displayName) > 0 ? 's' : 'r'} fa-heart fa-lg post__heart`}></i>}
+				<b>{username} </b>
+				{caption}
+			</h4>
 			<p className='post__commentsLabel'>{comments.length !== 0 && 'Comments'}</p>
 			{comments.length !== 0 && (
 				<div className="post__comments">
 					{comments.map((comment) => (
-						<p className="post__comment">
+						<p className="post__comment" key={comment.id}>
 							<strong>{comment.username}</strong> {comment.text}
 						</p>
 					))}
@@ -78,7 +121,7 @@ function Post({ postId, caption, user, username, imageUrl, profilePic }) {
 						onClick={postComment}
 					>
 						Post
-				</Button>
+					</Button>
 				</form>
 			)}
 		</div>

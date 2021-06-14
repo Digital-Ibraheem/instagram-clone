@@ -191,7 +191,7 @@ function App() {
           <img src='https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png' alt="Instagram" height='150px' className="app__headerImage" />
           {user ? (
             <div>
-              <i onClick={() => setPostOpen(true)} style={{ marginBottom: "-10px" }} className="far fa-plus-square plus fa-lg"></i>
+              <i onClick={() => setPostOpen(true)} style={{ marginBottom: "-10px" }} className="far fa-plus-square plus fa-md"></i>
               <Button onClick={() => auth.signOut()}>Log Out</Button>
             </div>
           ) : (
