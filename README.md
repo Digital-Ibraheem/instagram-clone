@@ -10,10 +10,7 @@ Welcome to the Instagram Clone! This project is a recreation of the popular soci
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contact](#contact)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Features
 
